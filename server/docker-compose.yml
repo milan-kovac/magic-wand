@@ -1,0 +1,25 @@
+version: '3.7'
+services:
+  magic_wand_db:
+    image: postgres:13-alpine3.14
+    container_name: magic_wand_db
+    ports:
+      - '54323:5432'
+    environment:
+      POSTGRES_DB: magic_wand_db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    volumes:
+      - magic_wand_db:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  magic_wand_adminer:
+    image: adminer
+    container_name: 'magic_wand_adminer'
+    restart: unless-stopped
+    depends_on:
+      - magic_wand_db
+    ports:
+      - 8881:8080
+volumes:
+  magic_wand_db:
